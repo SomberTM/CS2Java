@@ -1,0 +1,46 @@
+package mouseclick3;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class MouseClick3 extends JApplet implements MouseListener {
+
+    int myX = 200;
+    int myY = 200;
+    Color color = Color.orange;
+    
+    static final int MY_RADIUS = 50;
+    
+    public void init() {
+        addMouseListener(this);
+    }
+    
+    public void paint(Graphics g) {
+        g.setColor(color);
+        g.fillOval(myX,myY,MY_RADIUS,MY_RADIUS);
+    }
+    
+    public void mouseClicked(MouseEvent e) {    } 
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+        if (e.getX() > myX && e.getX() < myX + MY_RADIUS && e.getY() > myY && e.getY() < myY + MY_RADIUS) {
+            color = Color.red;
+            repaint();
+        }
+    }
+    public void mouseReleased(MouseEvent e) {
+        if (e.getX() > myX && e.getX() < myX + MY_RADIUS && e.getY() > myY && e.getY() < myY + MY_RADIUS) {   
+            Random random = new Random();
+            int rand = random.nextInt(200);
+            myX = rand;
+            rand = random.nextInt(200);
+            myY = rand;
+            color = Color.orange;
+            repaint();
+        }
+    }
+    
+}
