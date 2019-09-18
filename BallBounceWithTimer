@@ -1,0 +1,51 @@
+package ballbouncewithtimer;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class BallBounceWithTimer extends JApplet implements ActionListener {
+
+        
+        int x = 100;
+        int y = 150;
+        int xVelocity = 1;
+        int yVelocity = 1;
+      
+        public void start() {
+            System.out.println("Starting...");
+        
+            Timer timer;
+            final int FREQ = 33;
+            timer = new Timer(FREQ, this);
+            timer.start();
+        }
+        
+        public void actionPerformed(ActionEvent evt) {
+            repaint();
+        }
+        
+        public void paint(Graphics g ) {
+            for(int i = 0; i < 20000; i++) {
+                g.setColor(Color.white);
+                g.fillOval(x, y, 30, 30);
+                
+                x += xVelocity;
+                y += yVelocity;
+                
+                if (x > 350 || x < 50) {
+                    xVelocity *= -1;
+                }
+                
+                if (y > 250 || y < 50) {
+                    yVelocity *= -1;
+                }
+                
+                g.setColor(Color.red);
+                g.fillOval(x, y, 30, 30);
+                
+                for (double j = 0; j < 5000000; j++);
+            } 
+        }
+}
+
