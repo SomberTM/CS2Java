@@ -1,1 +1,44 @@
+package mouseclick2;
+//make sure the project is named MouseClick2
 
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class MouseClick2 extends JApplet implements MouseListener {
+
+    int myX = 200;
+    int myY = 200;
+    static final int MY_RADIUS = 50;
+    //Create a color variable to allow us to change the color of the oval easily
+    Color color = Color.orange;
+    
+    public void init() {
+        addMouseListener(this);
+    }
+    
+    public void paint(Graphics g) {
+      //Set the color of the oval and draw it
+      g.setColor(color);
+      g.fillOval(myX,myY,MY_RADIUS,MY_RADIUS);
+    }
+    
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    
+    public void mousePressed(MouseEvent e) {
+        //Test if the mouse the mouse is hovering over the circle when its pressed
+        //If so change its color to red and repaint
+        if (e.getX() > myX && e.getX() < myX + MY_RADIUS && e.getY() < myY + MY_RADIUS && e.getY() > myY) {
+            color = Color.red;
+            repaint();
+        }
+    }
+    public void mouseReleased(MouseEvent e) {
+        //When the mouse comes up, change the circles color to orange and repaint
+        //If the mouse wasnt pressed over the circle, nothing will change
+        color = Color.orange;
+        repaint();
+    }
+}
