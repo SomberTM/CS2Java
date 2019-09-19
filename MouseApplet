@@ -1,0 +1,40 @@
+package mouseapplet;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class MouseApplet extends JApplet implements MouseListener {
+
+    int myX = -100;
+    int myY = -100;
+    int myX2 = -200;
+    int myY2 = -200;
+    
+    public void init() {
+        addMouseListener(this);
+    }
+    
+    public void paint(Graphics g) {
+        g.setColor(Color.orange);
+        g.fillOval(myX, myY, 10, 10);
+        g.setColor(Color.red);
+        g.fillRect(myX2, myY2, 10, 10);
+    }
+    
+    public void mouseClicked(MouseEvent evt) {}
+    public void mouseEntered(MouseEvent evt) {}
+    public void mouseExited(MouseEvent evt) {}
+    public void mousePressed(MouseEvent evt) {
+        myX = evt.getX();
+        myY = evt.getY();
+        repaint();
+        
+    }
+    public void mouseReleased(MouseEvent evt) {
+        myX2 = evt.getX();
+        myY2 = evt.getY();
+        repaint();
+        
+    }
+}
