@@ -10,6 +10,7 @@ public class MouseApplet extends JApplet implements MouseListener {
     int myY = -100;
     int myX2 = -200;
     int myY2 = -200;
+    Color color = Color.orange;
     
     public void init() {
         addMouseListener(this);
