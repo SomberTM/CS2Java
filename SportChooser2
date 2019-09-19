@@ -1,0 +1,60 @@
+package sportchooser2;
+
+import javax.swing.JOptionPane;
+import java.util.*;
+
+public class SportChooser2 {
+
+    public void run() {
+    
+        ArrayList<String> c = new ArrayList<String>(Arrays.asList("Are you a high school student?", "Are you in good shape?", "Do you have good hand-eye coordination?", "Can you use a ball?"));
+        ArrayList<String> o = new ArrayList<String>(Arrays.asList("You cannot play high school sports.", "You play chess now.", "Pick a sport. 1) Wrestling | 2) Track | 3) Cross Coutnry", "You are a new sailor."));
+        
+        JOptionPane.showMessageDialog(null, "For the following input boxes, Assume 1 = Yes, and 2 = No.");
+        int z = 0;
+        
+        for(int i = 0; i < 4; i++) {
+            String s = JOptionPane.showInputDialog(c.get(i));
+            int ss = Integer.parseInt(s);
+            
+            if (ss == 1 && i == z) {
+                continue;
+            } else if (ss == 2 && i < 2) {
+                JOptionPane.showMessageDialog(null, o.get(i));
+                break;    
+            } else if (ss == 2 && i == 2) {
+                s = JOptionPane.showInputDialog(o.get(i));
+                ss = Integer.parseInt(s);
+                ArrayList<String> a = new ArrayList<String>(Arrays.asList("You are now a wrestler", "You will run track", "You run cross country"));
+                
+                for(int x = 1; x < 4; x++) {
+                    if (ss == x) {
+                        JOptionPane.showMessageDialog(null, a.get(x-1));
+                    }
+                }
+                break;
+                
+            } else if (ss == 2 && i == 3) {
+                JOptionPane.showMessageDialog(null, o.get(i));
+                break;
+                
+            } else if (ss == 1 && i == 3) {
+                s = JOptionPane.showInputDialog("Pick a sport. 1) Football | 2) Softball | 3) Soccer | 4) Lacrosse | 5) Tennis");
+                ss = Integer.parseInt(s);
+                ArrayList<String> p = new ArrayList<String>(Arrays.asList("You play football", "You shall play softball", "You play soccer", "You are now a Lacrosse player", "You play tennis"));
+               
+                for (int f = 1; f < 6; f++) {
+                    if(ss == f) {
+                        JOptionPane.showMessageDialog(null, p.get(f-1));
+                    }
+                }
+                break;
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+       SportChooser2 s = new SportChooser2();
+       s.run();
+    }  
+}
