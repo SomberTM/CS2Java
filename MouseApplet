@@ -17,17 +17,16 @@ public class MouseApplet extends JApplet implements MouseListener {
     }
     
     public void paint(Graphics g) {
-        
+        g.setColor(Color.orange);
         g.fillOval(myX, myY, 10, 10);
-     
+        g.setColor(Color.red);
         g.fillRect(myX2, myY2, 10, 10);
     }
     
     public void mouseClicked(MouseEvent evt) {}
     public void mouseEntered(MouseEvent evt) {}
     public void mouseExited(MouseEvent evt) {}
-    public void mousePressed(MouseEvent evt) {
-        
+    public void mousePressed(MouseEvent evt) {  
         myX = evt.getX();
         myY = evt.getY();
         repaint();
