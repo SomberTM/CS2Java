@@ -26,7 +26,7 @@ public class BallBounceWithTimer extends JApplet implements ActionListener {
         }
         
         public void paint(Graphics g ) {
-            for(int i = 0; i < 20000; i++) {
+            
                 g.setColor(Color.white);
                 g.fillOval(x, y, 30, 30);
                 
@@ -44,8 +44,7 @@ public class BallBounceWithTimer extends JApplet implements ActionListener {
                 g.setColor(Color.red);
                 g.fillOval(x, y, 30, 30);
                 
-                for (double j = 0; j < 5000000; j++);
-            } 
-        }   
+                
+            }    
 }
 
