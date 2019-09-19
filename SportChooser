@@ -1,0 +1,83 @@
+package sportchooser;
+
+import javax.swing.JOptionPane;
+
+public class SportChooser {
+
+    public void run() {
+    
+        String s = JOptionPane.showInputDialog("Are you a High School Student? 1) Yes | 2) No");
+        int ss = Integer.parseInt(s);
+        
+        if (ss == 1) {
+            s = JOptionPane.showInputDialog("Are you in good shape? 1) Yes | 2) No");
+            ss = Integer.parseInt(s);
+            
+            if (ss == 1) {
+                s = JOptionPane.showInputDialog("Do you have good hand-eye coordination? 1) Yes | 2) No");
+                ss = Integer.parseInt(s);
+                
+                if (ss == 1) {
+                    s = JOptionPane.showInputDialog("Can you use a ball? 1) Yes | 2) No");
+                    ss = Integer.parseInt(s);
+                    
+                    if (ss == 1) {
+                        s = JOptionPane.showInputDialog("Pick a sport. 1) Football | 2) Softball | 3) Soccer | 4) Lacrosse | 5) Tennis");
+                        ss = Integer.parseInt(s);
+                        
+                        switch(ss) {
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "You will become a football player.");
+                                break;
+                            case 2:
+                                JOptionPane.showMessageDialog(null, "You are going to be a softball player.");
+                                break;
+                            case 3:
+                                JOptionPane.showMessageDialog(null, "You shall play soccer player.");
+                                break;
+                            case 4:
+                                JOptionPane.showMessageDialog(null, "You will play lacrosse.");
+                                break;
+                            case 5: 
+                                JOptionPane.showMessageDialog(null, "You are now a tenis player.");
+                                break;
+                                
+                        }
+                        
+                    } else if (ss == 2) {
+                        JOptionPane.showMessageDialog(null, "You must become a sailor.");                        
+                    }
+                    
+                } else if (ss == 2){
+                    s = JOptionPane.showInputDialog("Pick a sport. 1) Wrestling | 2) Track | 3) Cross Country");
+                    ss = Integer.parseInt(s);
+                    
+                    switch(ss) {
+                        case 1: 
+                            JOptionPane.showMessageDialog(null, "You are a wrestler");
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "You will run track.");
+                            break;
+                        case 3:
+                            JOptionPane.showMessageDialog(null, "You now run Cross Country.");
+                            break;
+                    }
+                }
+                
+            } else if (ss == 2) {
+                JOptionPane.showMessageDialog(null, "You are now a chess god");
+            }
+  
+        } else if (ss == 2) {
+            JOptionPane.showMessageDialog(null, "You cannot play high school sports");
+        }     
+    }
+    
+    
+    public static void main(String[] args) {
+        SportChooser c = new SportChooser();
+        c.run();
+    }
+    
+}
