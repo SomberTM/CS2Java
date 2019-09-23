@@ -1,0 +1,37 @@
+package timerapplet;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class TimerApplet extends JApplet implements ActionListener{
+
+    private int min = 0;
+    private int sec = 0;
+    
+    public void init() {
+        Timer timer;
+        final int T = 1000;
+        timer = new Timer(T, this);
+        timer.start();
+    }
+    
+    public void paint(Graphics g) {
+        String elapsed = "Elapes Time:" + min + ":";
+        if (sec < 10) {
+            elapsed += "0";
+        }
+        elapsed += sec;
+        g.drawString(elapsed, 100, 100);
+        
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        sec++;
+        if (sec > 59) {
+            min++;
+            sec = 0;
+        }
+        repaint();
+    }       
+}
