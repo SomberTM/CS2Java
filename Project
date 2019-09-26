@@ -1,0 +1,46 @@
+package game;
+
+import java.util.ArrayList.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Game extends JApplet implements MouseListener, ActionListener {
+
+    public int x = 100;
+    public int y = 100;
+    public int w = 20;
+    public int h = 20;
+    Cube cube = new Cube();
+    
+    class Cube {
+       
+        public void cubeMove(int xVel, int yVel) {
+            x += xVel;
+            y += yVel;
+        }
+        
+    }
+    
+    public void init() {
+        addMouseListener(this);
+    }
+    
+    public void paint(Graphics g) {
+        g.setColor(Color.red);
+        g.fillRect(x, y, w, h);
+    }
+    
+    public void mouseClicked(MouseEvent evt) {}
+    public void mouseEntered(MouseEvent evt) {}
+    public void mouseExited(MouseEvent evt) {}
+    public void mousePressed(MouseEvent evt) {
+        if (evt.getX() > 200) {
+            cube.cubeMove(5,0);
+            repaint();
+            System.out.println(evt.getX() + " " + evt.getY());
+        }
+    }
+    public void mouseReleased(MouseEvent evt) {}
+    public void actionPerformed(ActionEvent evt) {}
+}
