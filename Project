@@ -1,46 +1,112 @@
 package game;
 
 import java.util.ArrayList.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*; 
+import javax.swing.*; import javax.swing.JButton;
+import java.awt.event.*; import java.awt.event.ActionEvent; import java.awt.event.ActionListener;
 
-public class Game extends JApplet implements MouseListener, ActionListener {
-
+public class Game extends JApplet implements MouseListener, ActionListener, KeyListener {
+    
+    public boolean erase = false;
     public int x = 100;
-    public int y = 100;
-    public int w = 20;
-    public int h = 20;
+    public int y = 200;
+    public int w = 25;
+    public int h = 25;
+    public int lastX;
+    public int lastY;
+    
     Cube cube = new Cube();
     
     class Cube {
        
-        public void cubeMove(int xVel, int yVel) {
+        public void cubeMoveRight(int xVel, int yVel) {
             x += xVel;
             y += yVel;
         }
+        public void cubeMoveLeft(int xVel, int yVel) {
+            x -= xVel;
+            y -= yVel;
+        }
         
+        public void cubeJump(int jumpHeight) {
+            y += jumpHeight;
+        }
     }
-    
     public void init() {
+        Timer timer = new Timer();
+        
         addMouseListener(this);
+        addKeyListener(this);
+        setBackground(Color.gray);
     }
     
     public void paint(Graphics g) {
         g.setColor(Color.red);
         g.fillRect(x, y, w, h);
+        g.setColor(Color.black);
+        g.drawRect(0, 0, 350, 350);
+        g.fillRect(0,200 + h,350,150);
+        g.drawLine(0,100,350,100);
+        repaint();
+        if (erase == true) {
+            g.setColor(Color.gray);
+            g.fillRect(lastX, lastY, w, h);
+            repaint();
+        }
     }
     
     public void mouseClicked(MouseEvent evt) {}
     public void mouseEntered(MouseEvent evt) {}
     public void mouseExited(MouseEvent evt) {}
     public void mousePressed(MouseEvent evt) {
-        if (evt.getX() > 200) {
-            cube.cubeMove(5,0);
+        if (evt.getX() > 175 && evt.getX() < 350 && x < 350 - w ) {
+            lastX = x;
+            lastY = y;
+            erase = true;
+            cube.cubeMoveRight(w,0);
             repaint();
-            System.out.println(evt.getX() + " " + evt.getY());
+                  
+        } else if (evt.getX() < 175 && evt.getX() > 0 && x > 0) {
+            lastX = x;
+            lastY = y;
+            erase = true;
+            cube.cubeMoveLeft(w,0);
+            repaint();
+        
+        } else if (evt.getY() < 100 && evt.getY() > 0) {
+            cube.cubeJump(10);
+        
+        } else {
+            erase = false;
+            repaint();
         }
     }
     public void mouseReleased(MouseEvent evt) {}
     public void actionPerformed(ActionEvent evt) {}
+    public void keyPressed( KeyEvent e ) {
+        /*switch(e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                lastX = x;
+                lastY = y;
+                erase = true;
+                cube.cubeMoveLeft(w, 0);
+                break;
+            case KeyEvent.VK_RIGHT:
+                lastX = x;
+                lastY = y;
+                erase = true;
+                cube.cubeMoveRight(w, 0);
+                break;
+            case KeyEvent.VK_UP:
+                lastX = x;
+                lastY = y;
+                erase = true;
+                break;
+            default:
+                erase = false;
+                repaint();
+        }*/
+    }
+    public void keyReleased( KeyEvent evt ) {}
+    public void keyTyped( KeyEvent evt ) {}
 }
