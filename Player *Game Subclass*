@@ -1,0 +1,11 @@
+package game;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Player extends JApplet implements ActionListener {
+    
+    public void actionPerformed(ActionEvent e) {}
+    
+}
