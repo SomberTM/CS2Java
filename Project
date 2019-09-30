@@ -1,0 +1,108 @@
+package game;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Game extends JApplet implements ActionListener, MouseListener{
+    
+    public boolean erase = false;
+    public boolean pJump = false;
+    public int sec = 0;
+    public int pX = 100;
+    public int pY = 100;
+    public int pW = 10;
+    public int pH = 10;
+    public int lX;
+    public int lY;
+    
+    Player player = new Player();
+    
+    class Player {
+        
+        public void move(int xV, int yV) {
+            lX = pX;
+            lY = pY;
+            erase = true;
+            pX += xV;
+            pY += yV;
+        }
+        
+        public void jump(int height) {
+            lX = pX;
+            lY = pY;
+            erase = true;
+            pY -= height;
+        }
+        
+        public void fall(int yVel) {
+            lX = pX;
+            lY = pY;
+            erase = true;
+            pY += yVel;
+        }
+        
+    }
+    
+    public void init() {
+        final int TICK = 1000;
+        Timer timer = new Timer(TICK, this);
+        addMouseListener(this);
+    }
+    
+    public void paint(Graphics g) {
+        setBackground(Color.GRAY);
+        
+        g.setColor(Color.red);
+        g.fillRect(pX, pY, pW, pH);
+        
+        g.setColor(Color.black);
+        g.fillRect(0, 110, 350, 240);
+        
+        if (erase = true) {
+            g.setColor(Color.white);
+            g.fillRect(lX, lY, pW, pH);
+        } else {
+            erase = false; 
+        }
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        sec++;
+    }
+    
+    public void mouseClicked(MouseEvent evt) {}
+    public void mouseEntered(MouseEvent evt) {}
+    public void mouseExited(MouseEvent evt) {}
+    public void mousePressed(MouseEvent evt) {
+
+        if (evt.getY() > 0 && evt.getY() < 60 && pY > 0) {
+            pJump = true;
+            if (pJump == true) {
+                player.jump(10);
+                repaint();
+            } 
+        }
+        
+        if (pJump == false) {
+            if (evt.getX() > 175 && evt.getX() < 350 && pX + pW < 350) {
+                player.move(10,0);
+                repaint();
+            }
+
+            if (evt.getX() < 175 && evt.getX() > 0 && pX > 0) {
+                player.move(-10, 0);
+                repaint();
+            }
+        } else {
+            pJump = false;
+        }
+    }
+    
+    public void mouseReleased(MouseEvent evt) {
+        if (pY + pH < 110 && pY + pH != 110) {
+            player.fall(10);
+            repaint();
+        }
+    }
+}
