@@ -3,6 +3,7 @@ package game;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class Game extends JApplet implements ActionListener, MouseListener{
     
@@ -10,7 +11,8 @@ public class Game extends JApplet implements ActionListener, MouseListener{
     public boolean eraseObs = false;
     public boolean pJump = false;
     public int sec = 0;
-    public int fallInterval = 10;  
+    public int fallInterval = 9;
+    public int fallGap = 30; //30 = 15 seconds
     public int pW = 10;
     public int pX = pW * 10;
     public int pH = 10;
@@ -20,6 +22,7 @@ public class Game extends JApplet implements ActionListener, MouseListener{
     
     Color obsColor = Color.white;
     Color obsColor2 = Color.white;
+    public int f = 0;
     public int oX = 200;
     public int oY = -10;
     public int oW = 10;
@@ -29,6 +32,7 @@ public class Game extends JApplet implements ActionListener, MouseListener{
     
     Player player = new Player();
     Obstacle obstacle = new Obstacle();
+    Random random = new Random();
     
     class Player {
         
@@ -104,13 +108,17 @@ public class Game extends JApplet implements ActionListener, MouseListener{
     }
     
     public void actionPerformed(ActionEvent e) {
-        int f = 0;
         sec++;
         System.out.println(sec);
-        if (sec >= fallInterval) {
+        if (sec > fallInterval) {
             obsColor = Color.black;
+            oX = random.nextInt(350 - pW);
             f = 10;
+            fallInterval += fallGap;
             repaint();
+            if (fallGap >= 20) {
+                fallGap -= 2;
+            }
         }     
         obstacle.fall(f);
         repaint();
