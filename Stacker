@@ -1,0 +1,44 @@
+package stacker;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.Random;
+
+public class Stacker extends JApplet implements ActionListener, MouseListener {
+               
+    private int bX = 5;
+    private int bY = 5;
+    private int bW = 25;
+    private int bH = 25;
+        
+    public void paint(Graphics f) {
+        for (int i = 0; i < 16; i++) {
+            f.setColor(Color.black);
+            f.fillRect(bX, bY, bW, bH);
+            if (i < 4) {
+                bX += bW + 5;
+                
+            } else if (i > 4 && i < 16) {       
+                  bY += bH + 5;
+            }      
+        }
+    }
+    
+    public void init() {
+        addMouseListener(this);
+        final int TICK = 250;
+        Timer timer = new Timer(TICK, this);
+        //timer.start();
+    }
+    
+    
+    public void actionPerformed(ActionEvent e) {}
+    
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    
+}
