@@ -1,0 +1,144 @@
+package ballbounceoffwalls;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class Ball {
+
+    private int radius = 15;
+    private int xLocation = 100;
+    private int yLocation = 150;
+    private int xVelocity = 9;
+    private int yVelocity = 4;
+    
+    public void move (Graphics g) {
+        erase(g);
+        xLocation += xVelocity;
+        yLocation += yVelocity;
+    }
+    
+    public void bounceOffVertical() {
+        xVelocity = -xVelocity;
+    }
+    
+    public void bounceOffHorizontal() {
+        yVelocity = -yVelocity;
+    }
+    
+    public int getX() {
+        return xLocation;
+    }
+    
+    public int getY() {
+        return yLocation;
+    }
+    
+    public void setX(int newX) {
+        xLocation = newX;
+    }
+    
+    public void setY(int newY) {
+        yLocation = newY;
+    }
+    
+    public int getRadius() {
+        return radius;
+    }
+    
+    public void draw(Graphics g) {
+        g.setColor(Color.red);
+        g.fillOval(xLocation - radius, yLocation - radius, radius * 2, radius * 2);
+    }
+    
+    public void erase(Graphics g) {
+        g.setColor(Color.white);
+        g.fillOval(xLocation - radius, yLocation - radius, radius * 2, radius * 2);
+    }
+}
+
+class HWall {
+    
+    private int position;
+    
+    public HWall(int wallPosition) {
+        position = wallPosition;
+    }
+    
+    public boolean bounceIfColliding(Ball b) {
+        int topEdge = b.getY() - b.getRadius();
+        int bottomEdge = b.getY() + b.getRadius();
+        if((topEdge <= position) && (position <= bottomEdge)) {
+            if(b.getY() > position) {
+                b.setY(position + b.getRadius());
+            } else {
+                b.setY(position - b.getRadius());
+            }
+            b.bounceOffHorizontal();
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+class VWall {
+    
+    private int position;
+    
+    public VWall(int wallPosition) {
+        position = wallPosition;
+    }
+    
+    public boolean bounceIfColliding(Ball b) {
+        int leftEdge = b.getX() - b.getRadius();
+        int rightEdge = b.getX() + b.getRadius();
+        if ((leftEdge <= position) && (position <= rightEdge)) {
+            if (b.getX() > position) {
+                b.setX(position + b.getRadius());
+            } else {
+              b.setX(position - b.getRadius());  
+            }
+            
+            b.bounceOffVertical();
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+public class BallBounceOffWalls extends JApplet {
+
+    Ball ball = new Ball();
+    HWall floor = new HWall(300);
+    HWall ceiling = new HWall(0);
+    VWall left = new VWall(0);
+    VWall right = new VWall(350);
+    
+    public void start() {
+        final int FREQ = 33;
+        Timer timer;
+        timer = new Timer(FREQ, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        
+        });
+        
+        timer.start();
+    }
+    
+    public void paint(Graphics g) {
+   
+        ball.move(g);
+        
+        floor.bounceIfColliding(ball);
+        ceiling.bounceIfColliding(ball);
+        left.bounceIfColliding(ball);
+        right.bounceIfColliding(ball);
+        
+        ball.draw(g);
+        
+    }
+}
