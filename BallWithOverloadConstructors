@@ -1,0 +1,179 @@
+package ballwithoverloadconstructors;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class Ball {
+    private int r = 15;
+    private int x = 100;
+    private int y = 150;
+    private int xVel = 9;
+    private int yVel = 4;
+    
+    public Ball() {}
+    
+    public Ball(int r, int x, int y, int xVel, int yVel) {
+        this.r = r;
+        this.x = x;
+        this.y = y;
+        this.xVel = xVel;
+        this.yVel = yVel;
+    }
+    
+    public void move(Graphics g) {
+        erase(g);
+        x += xVel;
+        y += yVel;
+    }
+    
+    public void bounceOffVertical(double elasticity) {
+        xVel = (int) (-(xVel * elasticity));
+    }
+    
+    public void bounceOffVertical() {
+        bounceOffVertical(1.0);
+    }
+    
+    public void bounceOffHorizontal(double elasticity) {
+        yVel = (int) (-(yVel * elasticity));
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
+    public void setX(int newX) {
+        x = newX;
+    }
+    
+    public void setY(int newY) {
+        y = newY;
+    }
+    
+    public int getR() {
+        return r;
+    }
+    
+    public void draw(Graphics g) {
+        g.setColor(Color.red);
+        g.fillOval(x-r, y-r, 2*r, 2*r);
+    }
+    
+    public void erase(Graphics g) {
+        g.setColor(Color.white);
+        g.fillOval(x-r, y-r, 2*r, 2*r);
+    }
+}
+
+class HWall {
+    
+    private int position;
+    private double elasticity = 1.0;
+    
+    public HWall(int wallPosition) {
+        position = wallPosition;
+    }
+    
+    public HWall(int wallPos, double wallElas) {
+        position = wallPos;
+        elasticity = wallElas;
+    }
+    
+    public boolean bounceIfColliding(Ball b) {
+        int topEdge = b.getY() - b.getR();
+        int bottomEdge = b.getY() + b.getR();
+        if((topEdge <= position) && (position <= bottomEdge)) {
+            if(b.getY() > position) {
+                b.setY(position + b.getR());
+            } else {
+                b.setY(position - b.getR());
+            }
+            b.bounceOffHorizontal(elasticity);
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+class VWall {
+    
+    private int position;
+    
+    public VWall(int wallPosition) {
+        position = wallPosition;
+    }
+    
+    public boolean bounceIfColliding(Ball b) {
+        int leftEdge = b.getX() - b.getR();
+        int rightEdge = b.getX() + b.getR();
+        if ((leftEdge <= position) && (position <= rightEdge)) {
+            if (b.getX() > position) {
+                b.setX(position + b.getR());
+            } else {
+                b.setX(position - b.getR());  
+            }
+            
+            b.bounceOffVertical();
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+public class BallWithOverloadConstructors extends JApplet{
+
+    Ball ball1 = new Ball();
+       
+    final int radius = 20;
+    final int startX = 12;
+    final int startY = 20;
+    final int startXVel = 15;
+    final int startYVel = 15;
+    
+    Ball ball2 = new Ball(radius, startX, startY, startXVel, startYVel);
+    
+    HWall floor = new HWall(300, .5);
+    HWall ceiling = new HWall(0);
+    VWall left = new VWall(0);
+    VWall right = new VWall(350);
+    
+    public void start() {
+        System.out.println("firing start . . .");
+        
+        final int FREQ = 33;
+        Timer timer = new Timer(FREQ, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        
+        timer.start();
+    }
+    
+    public void paint(Graphics g) {
+        ball1.move(g);
+        ball2.move(g);
+        
+        floor.bounceIfColliding(ball1);
+        ceiling.bounceIfColliding(ball1);
+        left.bounceIfColliding(ball1);
+        right.bounceIfColliding(ball1);
+        
+        floor.bounceIfColliding(ball2);
+        ceiling.bounceIfColliding(ball2);
+        left.bounceIfColliding(ball2);
+        right.bounceIfColliding(ball2);
+        
+        
+        ball1.draw(g);
+        ball2.draw(g);
+    }
+    
+}
