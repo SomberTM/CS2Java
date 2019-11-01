@@ -1,0 +1,75 @@
+Key Terms
+1. Encapsulation
+2. Parameter List
+3. Decoupling
+4. Method Overloading
+5. Method Signature
+
+Key Facts
+1. B
+2. C
+3. A
+4. C
+5. B
+
+Concpets
+4. Having more than 1 constructor with optional parameters. public run() {}, public run(int time) {}
+
+Tech Skills
+1. Oval and Rect
+class Oval {
+	int OvalX;
+	int OvalY;
+
+	public int getOvalX() { return OvalX; }
+	public int getOvalY() { return OvalY; }
+
+	public void setOvalX( int x ) { OvalX = x; return; }
+	public void setOvalY( int y ) { OvalY = y; return; }
+
+}
+
+class Rect {
+	int RectX;
+	int RectY;
+
+	public int getRectX() { return RectX; }
+	public int getRectY() { return RectY; }
+
+	public void setRectX( int x ) { RectX = x; return; }
+	public void setRectY( int y ) { RectY = y; return; }
+}
+
+2 / 3. 
+class Ball {
+	int x = Coordinate.x;
+	int y = Coordinate.y;
+	int xVel = 4;
+	int yVel = 7;
+
+	public void setBallPos(int x, int y) {this.x = x; this.y = y;}
+	public void setVel(int xVel, int yVel) {this.xVel = xVel; this.yVel = yVel; }
+}
+
+class Coordinate {
+	int x = 0;
+	int y = 0;
+}
+
+4. All
+
+5.
+class myMath {
+	public float sum(float num, float num1) {
+		return (num + num1);
+	}
+	public float sum(float num, float num1, float num2) {
+		return (num + num1 + num2);
+	}
+	public int sum(int num, int num1) {
+		return (num + num1);
+	}
+	public int sum(int num, int num1, int num2) {
+		return (num + num1 + num2);
+	}
+}
