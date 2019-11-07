@@ -1,0 +1,209 @@
+package ballwithbasewallclass;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class Ball {
+    private int r = 15;
+    private int x = 100;
+    private int y = 150;
+    protected int xVel = 9;
+    protected int yVel = 4;
+    protected Color ballColor = Color.red;
+    
+    public Ball() {}
+    
+    public Ball(int r, int x, int y, int xVel, int yVel, Color ballColor) {
+        this.r = r;
+        this.x = x;
+        this.y = y;
+        this.xVel = xVel;
+        this.yVel = yVel;
+        this.ballColor = ballColor;
+    }
+    
+    public void move(Graphics g) {
+        erase(g);
+        x += xVel;
+        y += yVel;
+    }
+    
+    public void bounceOffVertical(double elasticity) {
+        xVel = (int) (-(xVel * elasticity));
+    }
+    
+    public void bounceOffVertical() {
+        bounceOffVertical(1.0);
+    }
+    
+    public void bounceOffHorizontal(double elasticity) {
+        yVel = (int) (-(yVel * elasticity));
+    }
+    
+    public void bounceOffHorizontal() {
+        bounceOffHorizontal(1.0);
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
+    public void setX(int newX) {
+        x = newX;
+    }
+    
+    public void setY(int newY) {
+        y = newY;
+    }
+    
+    public int getR() {
+        return r;
+    }
+    
+    public void draw(Graphics g) {
+        g.setColor(ballColor);
+        g.fillOval(x-r, y-r, 2*r, 2*r);
+    }
+    
+    public void erase(Graphics g) {
+        g.setColor(Color.white);
+        g.fillOval(x-r, y-r, 2*r, 2*r);
+    }
+}
+
+class DeadBall extends Ball {
+    private double ballElasticity;
+    
+    public DeadBall() {
+        //super(20,12,20,15,15, Color.blue);
+        ballElasticity = .7;
+        ballColor = Color.blue;
+    }
+    
+    public void bounceOffVertical(double elasticity) {
+        xVel = (int) (-(xVel * elasticity * ballElasticity));
+    }
+    
+    public void bounceOffHoritzontal(double elasticity) {
+        yVel = (int)(-(yVel * elasticity * ballElasticity));
+    }
+}
+
+abstract class Wall {
+    protected int position;
+    protected double elasticity = 1.0;
+    
+    public Wall(int wallPosition, double wallElasticity) {
+        position = wallPosition;
+        elasticity = wallElasticity;
+    }
+    
+    public Wall(int wallPosition) {
+        position = wallPosition;
+    }
+    
+    abstract public boolean bounceIfColliding(Ball b);
+    
+}
+
+class HWall extends Wall {
+    
+    public HWall(int wallPosition) {
+        super(wallPosition);
+    }
+    
+    public HWall(int wallPos, double wallElas) {
+        super(wallPos, wallElas);
+    }
+    
+    public boolean bounceIfColliding(Ball b) {
+        int topEdge = b.getY() - b.getR();
+        int bottomEdge = b.getY() + b.getR();
+        if((topEdge <= position) && (position <= bottomEdge)) {
+            if(b.getY() > position) {
+                b.setY(position + b.getR());
+            } else {
+                b.setY(position - b.getR());
+            }
+            b.bounceOffHorizontal(elasticity);
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+class VWall extends Wall {
+       
+    public VWall(int wallPosition) {
+        super(wallPosition);
+    }
+    
+    public VWall(int wallPosition, double wallElasticity) {
+        super(wallPosition, wallElasticity);
+    }
+     
+    public boolean bounceIfColliding(Ball b) {
+        int leftEdge = b.getX() - b.getR();
+        int rightEdge = b.getX() + b.getR();
+        if ((leftEdge <= position) && (position <= rightEdge)) {
+            if (b.getX() > position) {
+                b.setX(position + b.getR());
+            } else {
+                b.setX(position - b.getR());  
+            }
+            
+            b.bounceOffVertical();
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+public class BallWithBaseWallClass extends JApplet{
+
+    Ball ball;
+    
+    Wall floor = new HWall(300, .5);
+    Wall ceiling = new HWall(0);
+    Wall left = new VWall(0);
+    Wall right = new VWall(350);
+    
+    public void start() {
+        System.out.println("firing start . . .");
+        
+        if (java.lang.Math.random () >= 0.5) {
+            ball = new Ball();
+        } else {
+            ball = new DeadBall();
+        }
+        
+        final int FREQ = 33;
+        Timer timer = new Timer(FREQ, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        
+        timer.start();
+    }
+    
+    public void paint(Graphics g) {
+        ball.move(g);
+        
+        floor.bounceIfColliding(ball);
+        ceiling.bounceIfColliding(ball);
+        left.bounceIfColliding(ball);
+        right.bounceIfColliding(ball);
+              
+        ball.draw(g);
+    }
+    
+}
+
