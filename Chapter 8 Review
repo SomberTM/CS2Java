@@ -1,0 +1,27 @@
+Key Terms
+1. Inheritance
+2. Code Reuse
+3. Protected Keyword
+4. Polymorphism
+5. Abstract Base Class
+
+Key Facts
+1. C
+2. B
+3. C
+4. A
+5. B
+
+Tech Skills
+4.
+
+abstract class Employee {
+	protected String first_name;
+	protected String last_name;
+	protected float wages;
+
+	abstract public void setWages(float hours, float rate);
+}
+
+class Manager extends Employee {
+}
