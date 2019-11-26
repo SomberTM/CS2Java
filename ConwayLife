@@ -1,0 +1,143 @@
+package conwaylife;
+
+import java.awt.*;
+import java.lang.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class LifeBoard {
+    
+    private int nCols;
+    private int nRows;
+    private boolean[][] boardData;
+    
+    LifeBoard(int rows, int cols) {
+        nCols = cols;
+        nRows = rows;
+        boardData = new boolean[nRows][nCols];
+    }
+    
+    private LifeBoard(LifeBoard that) {
+        this.nCols = that.nCols;
+        this.nRows = that.nRows;
+        this.boardData = new boolean[nRows][nCols];
+    }
+    
+    void randomize() {
+        for (int r = 0; r < nRows ; r++) {
+            for (int c = 0; c < nCols; c++) {
+                boardData[r][c] = (java.lang.Math.random() > .9);
+            }
+        }
+    }
+    
+    void setCell(int row, int col, boolean value) {
+        boardData[row][col] = value;
+    }
+    
+    boolean getCell(int row, int col) {
+        if ( row < 0 ) {
+            row = nRows - 1;
+        } else if (row >= nRows) {
+            row = 0;
+        }   
+        if ( col < 0) {
+            col = nCols - 1;
+        } else if ( col >= nCols ) {
+            col = 0;
+        }
+        
+        return boardData[row][col];
+    }
+    
+    private boolean nextState(int row, int col) {
+        int neighborCount = 0;
+        
+        for (int dy = -1; dy <= 1; ++dy) {
+            for (int dx = -1; dx <= 1; ++dx) {
+                if (dx == 0 && dy == 0) {
+                    continue;
+                }
+                
+                if (getCell(row + dy, col + dx)) {
+                    ++neighborCount;
+                }
+            }
+        }                   
+        if (neighborCount == 3) {
+            return true;
+        }
+
+        if (neighborCount == 2) {
+            return boardData[row][col];
+        } else {
+            return false;
+        }
+    }
+    public LifeBoard generation() {
+        LifeBoard newBoard = new LifeBoard(this);
+        
+        for ( int r = 0; r < nRows; ++r) {
+            for (int c =0; c < nCols; ++c) {
+                newBoard.setCell(r,c,nextState(r,c));
+            }
+        }
+        
+        return newBoard;
+    }
+    
+    private void drawCell(Graphics g, int row, int col, boolean filled, int cw, int ch) {
+        g.setColor(Color.white);
+        g.fillRect(col * cw + 1, row * ch + 1, cw -2, ch -2);
+        
+        g.setColor(Color.lightGray);
+        g.drawRect(col * cw, row * ch, cw, ch);
+        
+        if ( filled ) {
+            g.setColor(Color.red);
+            g.fillRect(col * cw + 2, row * ch + 2, cw - 4, ch - 4);
+            
+            g.setColor(Color.black);
+            g.drawRect(col * cw + 2, row * ch + 2, cw -4 , ch -4);
+        } 
+    }
+    
+    public void draw(Graphics g, int cellWidth, int cellHeight) {
+        for (int r = 0; r < nRows; ++r) {
+            for (int c = 0; c < nCols; ++c) {
+                drawCell(g,r,c,boardData[r][c], cellWidth, cellHeight);
+            }
+        }
+    }
+}
+
+public class ConwayLife extends JApplet {
+    public final static int NCOLS = 32;
+    public final static int NROWS = 24;
+    
+    private LifeBoard board = new LifeBoard(NCOLS, NROWS);
+    
+    public void start() {
+        board.randomize();
+        
+        Timer timer;
+        final int FREQ = 1000;
+        timer = new Timer(FREQ, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        
+        timer.start();
+    }
+    
+    public void paint(Graphics g) {
+        Dimension panelSize = getSize();
+        
+        int cellWidth = panelSize.width / NCOLS;
+        int cellHeight = panelSize.height / NROWS;
+        
+        board.draw(g, cellWidth, cellHeight);
+        board = board.generation();
+    }
+}
