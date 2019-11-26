@@ -1,0 +1,58 @@
+package diearray2d;
+
+import java.text.NumberFormat;
+
+public class DieArray2d {
+
+    static final int ITERATIONS = 10;
+    
+    int[][] diceVals = new int[ITERATIONS][13];
+    
+    public static void main(String[] args) {
+        DieArray2d d = new DieArray2d();
+        d.run();
+    }
+    
+    public void run() {
+        System.out.print("Rolling ...");
+        
+        for (int iteration = 0 ; iteration < ITERATIONS; iteration++ ) {
+            
+            for (int i = 0; i < 10000000; i++) {
+                if (i % 100000 == 0 ) {
+                    System.out.print('.');
+                }
+                
+                int firstRoll = rollDie();
+                int secondRoll = rollDie();
+
+                diceVals[iteration][firstRoll + secondRoll]++;
+            }
+        }
+        
+        display();
+    }
+    
+    public void display() {
+        
+        for (int iteration = 0 ; iteration < ITERATIONS; iteration++ ) {
+            System.out.print("\n");
+            
+            for (int i = 2; i <= 12; i++ ) {
+                System.out.print(diceVals[iteration][i] + " ");
+            }
+        }
+        System.out.print("\n");
+    }
+    
+    private int rollDie() {
+        double randomNum = java.lang.Math.random();
+        randomNum *= 6;
+        
+        int choice = (int) randomNum;
+        
+        choice ++;
+        
+        return choice;
+    }
+}
