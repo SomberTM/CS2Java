@@ -1,0 +1,53 @@
+package circlepacking;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class Circle {
+    
+    public int x, y, r;
+    public boolean growing = true;
+    distance d = new distance();
+    
+    public Circle(int x , int y, int r) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+    }
+    
+    public void show(Graphics g) {
+        g.drawOval(this.x, this.y, this.r * 2, this.r * 2);
+    }
+    
+    public void grow() {
+        if (this.growing) {
+            this.r += 1;
+        }
+    }
+    
+    public void edges(Circle other) {
+        if (this.x + this.r > 300 || this.x - this.r < 0 || this.y + this.r > 300 || this.y - this.r < 0) {
+            this.growing = false;
+        } else {
+            int dist = d.dist(this.x, this.y, other.x, other.y);
+            if ( dist < this.r + other.r) {
+                this.growing = false;
+            }
+        }
+    }
+}
+
+class distance {
+    
+    public distance() {}
+    
+    public int dist(float x1, float y1, float x2, float y2) {
+        double d;
+        double p1 = Math.pow(x2 - x1, 2);
+        double p2 = Math.pow(y2 - y1, 2);
+        d = Math.sqrt(p1 + p2);
+        return (int)(d);
+    }
+}
