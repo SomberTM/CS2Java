@@ -1,0 +1,61 @@
+class Student {
+
+	public String first;
+	public String last;
+
+	public Student(String first, String last) {
+		this.first = first;
+		this.last = last;
+	}
+
+	public void toString() {
+		System.out.println(first + " " + last);
+	}
+
+}
+package tictactoe;
+
+
+public class TicTacToe {
+
+    private final int ROWS = 3; 
+    private final int COLS = 3;
+    private char[][] board = new char[3][3];
+    private char winner;
+    
+    public TicTacToe() {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; i++) {
+                board[i][j] = ' ';
+            }
+        }
+    }
+    
+    public char getWinner() {
+        board[0][0] = 'x';
+        board[0][1] = 'x';
+        board[0][2] = 'x';
+        if (board[0][0] == board[0][1] && board[0][1] == board[0][2] || board[0][0] == board[1][1] && board[1][1] == board[2][2] || board[0][0] == board[1][0] && board[1][0] == board[2][0]) {
+            winner = board[0][0];
+        }
+        if (board[2][0] == board[1][1] && board[1][1] == board[0][2] || board[2][0] == board[2][1] && board[2][1] == board[2][2]) {
+            winner = board[2][0];
+        }
+        if (board[2][2] == board[1][2] && board[1][2] == board[0][2]) {
+            winner = board[2][2];
+        }
+        if (board[1][0] == board[1][1] && board[1][1] == board[1][2]) {
+            winner = board[1][0];
+        }
+        if (board[0][1] == board[1][1] && board[1][1] == board[2][1]) {
+            winner = board[0][1];
+        }
+        return winner;
+    }
+    
+    public static void main(String[] args) {
+        TicTacToe t = new TicTacToe();
+        System.out.println(t.getWinner());
+    }
+    
+}
