@@ -1,0 +1,70 @@
+package objectarraylist;
+
+import java.util.*;
+
+public class ObjectArrayList {
+
+    public void run() {
+
+        ArrayList myList = new ArrayList();
+        
+        for (int i = 0; i < 10; i++) {
+            String name = "Dog";
+            name += i;
+            myList.add(new Dog(name, i));
+        }
+        
+        System.out.print("\nFirst Contents Of My List...");
+        for (int i = 0; i < 10; i++) {
+            Dog theDog = (Dog)myList.get(i);
+            System.out.print("\n" + theDog.name + ". Barks" + theDog.howNoisy + " times: ");
+            theDog.bark();
+        }
+        
+        myList.clear();
+        
+        for (int i = 0; i <1000; i++) {
+            String name = "Employee";
+            name += i;
+            myList.add(new Employee(name, i * 10000));
+        }
+        
+        System.out.print("\n\nSecond Contents Of My List...\n");
+        for (int i = 0; i < 1000; i++) {
+            System.out.println("Employee: " + ((Employee)myList.get(i)).name + ". Salary: " + ((Employee)myList.get(i)).salary);
+        }
+    }
+    
+    public static void main(String[] args) {
+        ObjectArrayList oa = new ObjectArrayList();
+        oa.run();
+    }
+    
+}
+
+class Dog  {
+
+    public String name;
+    public int howNoisy;
+    
+    public Dog(String name, int howNoisy) {
+        this.name= name;
+        this.howNoisy= howNoisy;
+    }
+    
+    public void bark() {
+        for (int i =0 ; i< howNoisy; i++) {
+            System.out.print("Bark ");
+        }
+    }
+}
+
+class Employee {
+    public String name;
+    public double salary;
+    
+    public Employee(String name, double salary) {
+        this.name= name;
+        this.salary= salary;
+    }  
+}
