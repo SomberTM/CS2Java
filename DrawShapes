@@ -1,0 +1,136 @@
+package drawshapes;
+
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+abstract class OurShape {
+    Shape mShape = null;
+    Color mColor = Color.black;
+    static protected final int HALFWIDTH = 20;
+    static protected final int HALFHEIGHT = 10;
+    static protected final int RADIUS = 15;
+    
+    void changeColorRandomly() {
+        float r = (float) java.lang.Math.random();
+        float g = (float) java.lang.Math.random();
+        float b = (float) java.lang.Math.random();
+        
+        mColor = new Color(r,g,b);
+    }
+    
+    boolean contains(int x, int y) {
+        return mShape.contains((double)x, (double)y);
+    }
+    
+    void draw(Graphics2D g2) {
+        g2.setColor(mColor);
+        g2.fill(mShape);
+    }
+}
+
+class OurRectangle extends OurShape {
+    
+    OurRectangle(int x, int y) {
+        mShape = new Rectangle(x - HALFWIDTH, y - HALFHEIGHT, 2 * HALFWIDTH, 2 * HALFHEIGHT);
+    }
+}
+
+class OurTriangle extends OurShape {
+
+    OurTriangle(int x, int y) {
+        Polygon poly = new Polygon();
+        poly.addPoint(x - HALFWIDTH, y + HALFHEIGHT);
+        poly.addPoint(x, y - HALFHEIGHT);
+        poly.addPoint(x + HALFWIDTH, y + HALFHEIGHT);
+        mShape = poly;
+    }
+}
+
+class OurCircle extends OurShape {
+
+    private int mX;
+    private int mY;
+    
+    OurCircle(int x, int y) {
+        mY = y;
+        mX = x;
+    }
+    
+    boolean contains(int x, int y) {
+        int distanceSquared = (mX-x)*(mX-x) + (mY-y)*(mY-y);
+        boolean dSq = distanceSquared <= (RADIUS * RADIUS);
+        return (dSq);
+    }
+    
+    void draw(Graphics2D g2) {
+        g2.setColor(mColor);
+        g2.fillOval(mX - RADIUS, mY - RADIUS, RADIUS*2, RADIUS*2);
+    }
+}
+
+public class DrawShapes extends JApplet implements MouseListener {
+
+    ArrayList<OurShape> shapeList = new ArrayList<>();
+    
+    public void start() {
+        addMouseListener(this);
+    }
+    
+    OurShape findShape(int x, int y) {
+        for (OurShape shape : shapeList) {
+            if (shape.contains(x, y)) {
+                return shape;
+            }
+        }
+        return null;
+    }
+    
+    void createRandomShape(int x, int y) {
+        final int NSHAPES = 3;
+        int index = (int)(java.lang.Math.random() * NSHAPES);
+        switch (index) {
+            case 0:
+                shapeList.add(new OurRectangle(x, y));
+                break;
+            case 1:
+                shapeList.add(new OurTriangle(x, y));
+                break;
+            case 2:
+                shapeList.add(new OurCircle(x, y));
+                break;
+            default:
+                System.out.println("No");
+                break;                
+        }
+    }
+    
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        for (OurShape theShape : shapeList) {
+            theShape.draw(g2d);
+        }
+     
+    }
+    
+    
+    public void mouseClicked(MouseEvent e) {
+    
+        OurShape shape = findShape(e.getX(), e.getY());
+        
+        if (shape != null) {
+            shape.changeColorRandomly();
+        } else {
+            createRandomShape(e.getX(), e.getY());
+        }
+        repaint();        
+    }
+    
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    
+}
