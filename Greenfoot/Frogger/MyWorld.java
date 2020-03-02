@@ -5,8 +5,7 @@ public class MyWorld extends World
 {
 
     public boolean debug = false;
-    
-    public Node[][] grid;
+
     private int rows = 15; private int cols = 15;
     private int maxBusses = 3;
     private int currentBusses;
@@ -34,7 +33,6 @@ public class MyWorld extends World
         super(459, 630, 1);                
         addStartingObstacles();
         addFrog();
-        fillGrid();
     }
     
     public void act()
@@ -112,25 +110,6 @@ public class MyWorld extends World
             addObject(new RedRaceCar(), getWidth()-1, getHeight() - (3*38));
         }
         sinceLastRedCar++;
-    }
-    
-    private void fillGrid()
-    {
-        grid = new Node[rows][cols];
-        
-        for ( int i = 0; i < rows; i++) {
-            for ( int j = 0; j < cols; j++ ) {
-                grid[i][j] = new Node(i, j);
-            }
-        }
-        
-        /*For testing/Visualization
-        for ( int i = 0; i < rows; i++) {
-            for ( int j = 0; j < cols; j++ ) {
-                addObject(grid[i][j], (i * 33), (j * 38) + 19);
-            }
-        }
-        */
     }
     
     private void addFrog()
