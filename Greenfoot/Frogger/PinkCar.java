@@ -24,7 +24,6 @@ public class PinkCar extends Utilities
     {
         Frog frog = (Frog) getOneIntersectingObject(Frog.class);
         if ( frog != null ) {
-            getWorld().showText("Which Killer: Pink Car", 250,300); 
             getWorld().removeObject(frog);
         }         
     }
