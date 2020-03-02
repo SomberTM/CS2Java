@@ -18,7 +18,6 @@ public class WhiteRaceCar extends Utilities
     {
         Frog frog = (Frog) getOneIntersectingObject(Frog.class);
         if ( frog != null ) {
-            getWorld().showText("Which Killer: WhiteRaceCar", 250,300); 
             getWorld().removeObject(frog);
         }        
     }
