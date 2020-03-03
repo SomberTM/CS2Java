@@ -38,9 +38,12 @@ public class MyWorld extends World
     public void act()
     {
         busSpawner();
+        ThreeTurtleSpawner(getHeight() - (9*38));   
+        ThreeTurtleSpawner(getHeight() - (12*38));  
         whiteCarSpawner();
         redCarSpawner();
         pinkCarSpawner();
+        smallLogSpawner();
     }
     
     private void addStartingObstacles()
@@ -112,34 +115,6 @@ public class MyWorld extends World
         sinceLastRedCar++;
     }
     
-    private void addFrog()
-    {
-        Frog frog = new Frog();
-        frog.getImage().scale(35,35);
-        addObject( frog, getWidth() / 2, getHeight() - 75 );  
-    }
-    
-}
- //----
-
-import greenfoot.*;
-
-public class MyWorld extends World
-{
-    public MyWorld()
-    {            
-        super(459, 630, 1); 
-        ThreeTurtleSpawner(getHeight() - (9*38));   
-        ThreeTurtleSpawner(getHeight() - (12*38));  
-        Frog frog = new Frog();
-        frog.getImage().scale(35,35);
-        addObject( frog, getWidth() / 2, getHeight() - 75 );         
-    }
-    
-    public void act() {
-        smallLogSpawner();
-    }
-    
     private void ThreeTurtleSpawner(int turtleHeight)
     {
         Turtle turtle = new Turtle();
@@ -163,4 +138,12 @@ public class MyWorld extends World
             addObject( new SmallLog(), getWidth(), getHeight() - (10*38));
         }
     }
+    
+    private void addFrog()
+    {
+        Frog frog = new Frog();
+        frog.getImage().scale(35,35);
+        addObject( frog, getWidth() / 2, getHeight() - 75 );  
+    }
+    
 }
