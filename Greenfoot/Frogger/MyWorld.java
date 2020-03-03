@@ -120,3 +120,47 @@ public class MyWorld extends World
     }
     
 }
+ //----
+
+import greenfoot.*;
+
+public class MyWorld extends World
+{
+    public MyWorld()
+    {            
+        super(459, 630, 1); 
+        ThreeTurtleSpawner(getHeight() - (9*38));   
+        ThreeTurtleSpawner(getHeight() - (12*38));  
+        Frog frog = new Frog();
+        frog.getImage().scale(35,35);
+        addObject( frog, getWidth() / 2, getHeight() - 75 );         
+    }
+    
+    public void act() {
+        smallLogSpawner();
+    }
+    
+    private void ThreeTurtleSpawner(int turtleHeight)
+    {
+        Turtle turtle = new Turtle();
+        Turtle turtle2 = new Turtle();
+        Turtle turtle3 = new Turtle();
+        int waiter = Greenfoot.getRandomNumber(300) + 100;
+        if ( turtle.willGoDown || turtle2.willGoDown || turtle3.willGoDown ) 
+        {
+            turtle.willGoDown = true; turtle2.willGoDown = true; turtle3.willGoDown = true;
+            turtle.setWaiter(waiter); turtle2.setWaiter(waiter); turtle3.setWaiter(waiter);
+        }
+        int m_TurtleHeight = turtleHeight;
+        addObject( turtle, getWidth(), m_TurtleHeight);
+        addObject( turtle2, getWidth() - (turtle.getImage().getWidth()), m_TurtleHeight);
+        addObject( turtle3, getWidth() - (turtle.getImage().getWidth() * 2), m_TurtleHeight);        
+    }
+    
+    private void smallLogSpawner() 
+    {
+        if ( Greenfoot.getRandomNumber(100) > 85 ) {
+            addObject( new SmallLog(), getWidth(), getHeight() - (10*38));
+        }
+    }
+}
