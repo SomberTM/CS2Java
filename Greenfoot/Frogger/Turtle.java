@@ -2,42 +2,54 @@ import greenfoot.*;
 
 public class Turtle extends Utilities
 {
-    private int speed = 1;
-    private boolean intersecting;
-    private boolean hasInitialDist;
-    private int dist = 0;
+    public int dist;
+    public boolean isDown = false;
+    public boolean willGoDown = true;
+    private int timer = 0;
+    private int waiter;
+    private int downTimer = 0;
+    private int downCooldown = 25;
     
     public Turtle()
     {
-    
-    }
-    
-    public Turtle(int speed) 
-    {
-        this.speed = speed;
+        if ( random(100) > 80 ) {
+            willGoDown = true;
+        } 
     }
     
     public void act() 
     {
-        setLocation(getX() - 1, getY()); 
-        checkForFrog();
-        getWorld().showText("IS INTERSECTING?? " + intersecting, 200,180);
+        ifGoDown();
+        setLocation(getX()-1, getY());
+        deleteAtEdge(this);
     }    
     
-    private void checkForFrog()
+    public void giveDist(int dist)
+    {
+        this.dist = dist;
+    }
+    
+    public void setWaiter(int time) 
+    {
+        waiter = time;
+    }
+    
+    private void ifGoDown() 
     {
         Frog frog = (Frog) getOneIntersectingObject(Frog.class);
-        if ( frog != null )
-        {
-            intersecting = true;
-            if ( !hasInitialDist ) {
-                dist = (frog.getX() - this.getX());
-                hasInitialDist = true;
-            }
-            frog.setLocation((int)(getX() + dist), getY());
-            getWorld().showText("Frog Pos: " + frog.getX() + ", " + frog.getY(), 200, 220);
-        } else {
-            intersecting = false;
+        if ( willGoDown ) {
+            timer++;
+        }
+        if ( timer > waiter ) {
+            this.isDown = true;
+            this.setImage("froggerTurtleDown.PNG");
+        }
+        if ( this.isDown && downTimer < downCooldown ) {
+            downTimer++;
+        } else if ( this.isDown && frog == null ) {
+            downCooldown = 0;
+            this.isDown = false;
+            this.setImage("froggerTurtleUp.PNG");
         }
     }
 }
