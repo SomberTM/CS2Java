@@ -1,0 +1,107 @@
+import greenfoot.*;
+
+//Author : SomberTM
+
+public class Canvas extends World
+{
+    Timer timer;
+    
+    public Canvas()
+    {    
+        super(600, 400, 1);
+        timer = new Timer(); //Create a new Timer
+        timer.ready(); //Call timer.ready() to 'ready' | sort of a human lock
+    }
+   
+    public void act()
+    {
+        timer.count(); //If it's ready it will start counting
+        
+        /* Methods of 'class Timer' */
+        //
+        // timer.getTime(); Returns the currentTime of the timer;
+        // timer.stop(); This will stop the timer from counting and the ability to use it's methods;
+        // timer.stop(int time); This will stop the timer at a specified time;
+        // timer.past(int time); Returns true if the currentTime is past the specified time;
+        // timer.delay(int time); This will wait a specified amount of time and then return true after that time;
+        // timer.loopDelay(int wait, int delay); Waits the specified amount of 'wait' time + the specified 'delay' time and returns true then constantly waits the delay after that and then returns true; 
+        //
+        /* Now you know timer */
+        
+    }
+    
+}
+
+class Timer
+{
+    private int currentTime;
+    private int goal;
+    private int wait;
+    private boolean ready = false;
+    private boolean waiting = false;
+    private boolean loopWaiting = false;
+    
+    public Timer()
+    {
+        currentTime = 0;
+    }
+    
+    public void ready() { this.ready = true; }    
+    public void stop() { this.ready = false; }
+    public void stop(int stopAt) { this.ready = getTime() >= stopAt ? false : true; }
+    
+    public int getTime() { return this.currentTime; }
+    
+    public void count()
+    {
+        if ( this.ready )
+        {
+            currentTime++;
+        }
+    }
+    
+    public boolean past(int time)
+    {
+        if ( ready ) {
+          if ( getTime() >= time )
+          {
+              return true;
+          } 
+          return false;
+        }
+    }
+    
+    public boolean delay(int time)
+    {
+      if ( ready ) {
+          if ( !waiting )
+          {
+              this.goal = getTime() + time;
+              waiting = true;
+          }
+          if ( getTime() >= goal )
+          {
+              waiting = false;
+              return !waiting;
+          }
+          return false;
+      }
+    }
+    
+    public boolean loopDelay(int wait, int delay)
+    {
+      if ( ready ) {
+          if ( !loopWaiting )
+          {
+              this.wait = wait;
+              loopWaiting = true;
+          }
+          if ( this.past(this.wait) && this.delay(delay) )
+          {
+              this.wait += this.delay;
+              return true;
+          }   
+          return false;
+       }
+    }      
+}
